@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #define SIZE 3
 #define EMPTY ' '
 #define PLAYER 'X'
@@ -9,7 +10,8 @@ void initializeMap(char map[SIZE][SIZE]);
 void displayMap(char map[SIZE][SIZE], int x, int y);
 void move(int *x, int *y, char direction, char map[SIZE][SIZE]);
 void BoxSelect(int x, int y, char map[SIZE][SIZE]);
-
+void aiSelect(char map[SIZE][SIZE]);
+int checkWin(char map[SIZE][SIZE]);
 
 int main (void)
 {
@@ -18,7 +20,7 @@ int main (void)
     int *conrowPtr = &consoleRow;
     int consoleCol = 0;
     int *concolPtr = &consoleCol;
-    char direction = 0;
+    char direction = ' ';
     
 
     initializeMap(map);
@@ -27,10 +29,12 @@ int main (void)
     printf("Enter + to place your mark\n");
     displayMap(map, consoleRow, consoleCol);
     move(conrowPtr, concolPtr, direction, map);
-    BoxSelect(consoleRow, consoleCol, map);
-    
+    if (checkWin(map)) 
+    {
+        break;
     }
-
+    }
+    printf("\nthank you for playing :)\n\n");
 }
 //makes the board
 void initializeMap(char map[SIZE][SIZE])//sets the map and plants the treasure
@@ -78,7 +82,13 @@ void move(int *x, int *y, char direction, char map[SIZE][SIZE])
     {
         direction = initialdirection;
         break;
-    }else
+    }
+    else if(initialdirection == '+')
+    {
+        BoxSelect(*x, *y, map);
+        break;
+    }
+    else
     {
         printf(" invalid input. please try agiain\n");
     }
@@ -126,19 +136,93 @@ void move(int *x, int *y, char direction, char map[SIZE][SIZE])
             *y -= 1;
         }
     }
-    /* if(initialdirection == '+')
-    {
-        BoxSelect(*x, *y, map);
-    } */
 }
 void BoxSelect(int x, int y, char map[SIZE][SIZE])
 {
-    
-    if(map[x][y] == EMPTY)
+    //only places if user chose an empty space
+    while(1)
     {
-        map[x][y] = PLAYER;
-    } else
-    {
-        printf("the selected box is already taken.");
+        if(map[x][y] == EMPTY)
+        {
+            map[x][y] = PLAYER;
+            break;
+        }
+        else
+        {
+            printf("the selected box is already taken.");
+        }
     }
+    if (checkWin(map)) 
+    {
+            displayMap(map, -1, -1); // Removes player marker
+            printf("Player wins!\n");
+    }
+    aiSelect(map);
+    if (checkWin(map)) 
+    {
+            displayMap(map, -1, -1); // Removes player marker
+            printf("AI wins :(\n");
+    }
+}
+void aiSelect(char map[SIZE][SIZE]) {
+    //try to win
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (map[i][j] == EMPTY) {
+                map[i][j] = AI;
+                if (checkWin(map)) {
+                    return;
+                }
+                map[i][j] = EMPTY;
+            }
+        }
+    }
+    
+    //block player from winning
+    for (int i = 0; i < SIZE; i++) {
+        for (int j = 0; j < SIZE; j++) {
+            if (map[i][j] == EMPTY) {
+                map[i][j] = PLAYER;
+                if (checkWin(map)) {
+                    map[i][j] = AI;
+                    return;
+                }
+                map[i][j] = EMPTY;
+            }
+        }
+    }
+    
+    //make a random move
+    while (1) {
+        int i = rand() % SIZE;
+        int j = rand() % SIZE;
+        if (map[i][j] == EMPTY) {
+            map[i][j] = AI;
+            return;
+        }
+    }
+}
+int checkWin(char map[SIZE][SIZE]) 
+{
+    // Check rows columns and diagonals
+    for (int i = 0; i < SIZE; i++) 
+    {
+        if (map[i][0] != EMPTY && map[i][0] == map[i][1] && map[i][1] == map[i][2])
+        {
+            return 1;
+        }
+        if (map[0][i] != EMPTY && map[0][i] == map[1][i] && map[1][i] == map[2][i]) 
+        {
+            return 1;
+        }
+        if (map[0][0] != EMPTY && map[0][0] == map[1][1] && map[1][1] == map[2][2]) 
+        {
+            return 1;
+        }
+        if (map[0][2] != EMPTY && map[0][2] == map[1][1] && map[1][1] == map[2][0]) 
+        {
+            return 1;
+        }
+    }
+    return 0;
 }
