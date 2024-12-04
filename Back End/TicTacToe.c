@@ -36,7 +36,8 @@ int main (void)
         break;
     }
     }
-    printf("\nthank you for playing :)\n\n");
+    printf("\nThank you for playing :)\n\n");
+    return 0;
 }
 //makes the board
 void initializeMap(char map[SIZE][SIZE])//sets the map and plants the treasure
@@ -157,7 +158,7 @@ void BoxSelect(int x, int y, char map[SIZE][SIZE])//makes sure user choses empty
     }
     if (checkWin(map)) 
     {
-            displayMap(map, -1, -1); // Removes player marker
+            displayMap(map, -2, -2); // Removes player marker
             printf("Player wins!\n");
             return;
     }
@@ -171,7 +172,7 @@ void BoxSelect(int x, int y, char map[SIZE][SIZE])//makes sure user choses empty
     aiSelect(map);
     if (checkWin(map)) 
     {
-            displayMap(map, -1, -1); // Removes player marker
+            displayMap(map, -2, -2); // Removes player marker
             printf("AI wins :(\n");
             return;
     }
