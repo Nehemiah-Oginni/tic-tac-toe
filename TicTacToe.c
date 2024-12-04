@@ -5,6 +5,7 @@
 #define PLAYER 'X'
 #define AI 'O'
 
+
 //prototypes
 void initializeMap(char map[SIZE][SIZE]);
 void displayMap(char map[SIZE][SIZE], int x, int y);
@@ -12,6 +13,7 @@ void move(int *x, int *y, char direction, char map[SIZE][SIZE]);
 void BoxSelect(int x, int y, char map[SIZE][SIZE]);
 void aiSelect(char map[SIZE][SIZE]);
 int checkWin(char map[SIZE][SIZE]);
+int checkTie(char map[SIZE][SIZE]);
 
 int main (void)
 {
@@ -29,7 +31,7 @@ int main (void)
     printf("Enter + to place your mark\n");
     displayMap(map, consoleRow, consoleCol);
     move(conrowPtr, concolPtr, direction, map);
-    if (checkWin(map)) 
+    if (checkWin(map) || checkTie(map)) 
     {
         break;
     }
@@ -137,7 +139,7 @@ void move(int *x, int *y, char direction, char map[SIZE][SIZE])
         }
     }
 }
-void BoxSelect(int x, int y, char map[SIZE][SIZE])
+void BoxSelect(int x, int y, char map[SIZE][SIZE])//makes sure user choses empty space and checks for a tie
 {
     //only places if user chose an empty space
     while(1)
@@ -150,19 +152,36 @@ void BoxSelect(int x, int y, char map[SIZE][SIZE])
         else
         {
             printf("the selected box is already taken.");
+            return;
         }
     }
     if (checkWin(map)) 
     {
             displayMap(map, -1, -1); // Removes player marker
             printf("Player wins!\n");
+            return;
     }
+
+    if(checkTie)
+    {
+    printf("well... you seem to have tied.");
+    return;
+    }
+
     aiSelect(map);
     if (checkWin(map)) 
     {
             displayMap(map, -1, -1); // Removes player marker
             printf("AI wins :(\n");
+            return;
     }
+
+    if(checkTie)
+    {
+    printf("well... you seem to have tied.");
+    return;
+    }
+
 }
 void aiSelect(char map[SIZE][SIZE]) {
     //try to win
@@ -226,3 +245,31 @@ int checkWin(char map[SIZE][SIZE])
     }
     return 0;
 }
+int checkTie(char map[SIZE][SIZE])
+{
+    int markCount = 0;
+
+    for(int i=0; i<SIZE; i++)
+    {
+        for(int j=0; j<SIZE; j++)
+        {
+            if(map[i][j] != EMPTY)
+            {
+                markCount += 1;
+            }
+        }
+    }
+    if(markCount == 9)
+    {
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
+/* if(checkTie)
+{
+    printf("well... you seem to have tied."); return;
+} */
