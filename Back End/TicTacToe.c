@@ -163,7 +163,7 @@ void BoxSelect(int x, int y, char map[SIZE][SIZE])//makes sure user choses empty
             return;
     }
 
-    if(checkTie)
+    if(checkTie(map) == 1)
     {
     printf("well... you seem to have tied.");
     return;
@@ -177,7 +177,7 @@ void BoxSelect(int x, int y, char map[SIZE][SIZE])//makes sure user choses empty
             return;
     }
 
-    if(checkTie)
+    if(checkTie(map) == 1)
     {
     printf("well... you seem to have tied.");
     return;
@@ -260,7 +260,7 @@ int checkTie(char map[SIZE][SIZE])
             }
         }
     }
-    if(markCount == 9)
+    if(markCount == 9) //(sizeof(map)/sizeof(map[0])))
     {
         return 1;
     }
