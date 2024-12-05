@@ -28,7 +28,7 @@ int main (void)
     initializeMap(map);
     while(1)//loop only stops when game is finished
     {
-    printf("Enter + to place your mark\n");
+    printf("Enter e to place your mark\n");
     displayMap(map, consoleRow, consoleCol);
     move(conrowPtr, concolPtr, direction, map);
     if (checkWin(map) || checkTie(map)) 
@@ -78,15 +78,15 @@ void move(int *x, int *y, char direction, char map[SIZE][SIZE])
     while(1)
     {
     
-    printf ("Enter direction (U/D/L/R): ");//prompt
+    printf ("Use w/a/s/d to enter a direction: ");//prompt
     scanf("%c", &initialdirection);
     getchar();//cleans scanf up
-    if(initialdirection == 'U' ||initialdirection == 'D' ||initialdirection == 'L'|| initialdirection == 'R')
+    if(initialdirection == 'w' ||initialdirection == 's' ||initialdirection == 'a'|| initialdirection == 'd')
     {
         direction = initialdirection;
         break;
     }
-    else if(initialdirection == '+')
+    else if(initialdirection == 'e')
     {
         BoxSelect(*x, *y, map);
         break;
@@ -96,12 +96,12 @@ void move(int *x, int *y, char direction, char map[SIZE][SIZE])
         printf(" invalid input. please try agiain\n");
     }
     }
-    switch(direction) 
+    switch(direction)
     {
-    case 'U': *x -= 1; break;
-    case 'D': *x += 1; break;
-    case 'R': *y += 1; break;
-    case 'L': *y -= 1; break;
+    case 'w': *x -= 1; break;
+    case 's': *x += 1; break;
+    case 'd': *y += 1; break;
+    case 'a': *y -= 1; break;
     }
     if(*x < SIZE && *x >= 0)// keeps x in bounds
     {
