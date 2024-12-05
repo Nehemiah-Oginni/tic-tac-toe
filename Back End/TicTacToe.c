@@ -28,7 +28,7 @@ int main (void)
     initializeMap(map);
     while(1)//loop only stops when game is finished
     {
-    printf("Enter + to place your mark\n");
+    printf("Enter e to place your mark\n");
     displayMap(map, consoleRow, consoleCol);
     move(conrowPtr, concolPtr, direction, map);
     if (checkWin(map) || checkTie(map)) 
@@ -58,7 +58,7 @@ void displayMap(char map[SIZE][SIZE], int x, int y)
     {
         for(int j=0; j<SIZE; j++)
         {
-            if(i == x && j == y)
+            if(i == x && j == y && map[i][j] != PLAYER)
             {
             printf("[P] ");//prints the P wherever the player moves
             }
@@ -78,15 +78,15 @@ void move(int *x, int *y, char direction, char map[SIZE][SIZE])
     while(1)
     {
     
-    printf ("Enter direction (U/D/L/R): ");//prompt
+    printf ("Use w/a/s/d to enter a direction: ");//prompt
     scanf("%c", &initialdirection);
     getchar();//cleans scanf up
-    if(initialdirection == 'U' ||initialdirection == 'D' ||initialdirection == 'L'|| initialdirection == 'R')
+    if(initialdirection == 'w' ||initialdirection == 's' ||initialdirection == 'a'|| initialdirection == 'd')
     {
         direction = initialdirection;
         break;
     }
-    else if(initialdirection == '+')
+    else if(initialdirection == 'e')
     {
         BoxSelect(*x, *y, map);
         break;
@@ -96,20 +96,14 @@ void move(int *x, int *y, char direction, char map[SIZE][SIZE])
         printf(" invalid input. please try agiain\n");
     }
     }
-    if(direction == 'U')
+    switch(direction)
     {
-        *x -= 1;
-    }else if (direction == 'D')
-    {
-        *x += 1;
-    }else if (direction == 'R')
-    {
-        *y += 1;
-    }else if (direction == 'L')
-    {
-        *y -= 1;
-    } 
-    if(*x <= SIZE && *x >= 0)// keeps x in bounds
+    case 'w': *x -= 1; break;
+    case 's': *x += 1; break;
+    case 'd': *y += 1; break;
+    case 'a': *y -= 1; break;
+    }
+    if(*x < SIZE && *x >= 0)// keeps x in bounds
     {
         //yay :)
     }
@@ -124,7 +118,7 @@ void move(int *x, int *y, char direction, char map[SIZE][SIZE])
             *x -= 1;
         }
     }
-    if(*y <= SIZE && *y >= 0)//keeps y in bounds
+    if(*y < SIZE && *y >= 0)//keeps y in bounds
     {
         //yay :)
     } 
