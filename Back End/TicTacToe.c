@@ -263,8 +263,3 @@ int checkTie(char map[SIZE][SIZE])
         return 0;
     }
 }
-
-/* if(checkTie)
-{
-    printf("well... you seem to have tied."); return;
-} */
