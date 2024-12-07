@@ -32,6 +32,7 @@
     background-color: #ff8177;
     background-image: linear-gradient(to top, #2229c0 10%,  #00eeff 100%);
     background-size: 100%;
+    filter: drop-shadow(0 0 20px #00eeff);
     -webkit-background-clip: text;
     -moz-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -60,6 +61,7 @@
 
 .navbar_links{
     color: #ed1f1f;
+    filter: drop-shadow(0 0 2px #ed1f1f);
     display: flex;
     align-items: center;
     justify-content: center;
