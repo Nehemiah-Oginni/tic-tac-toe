@@ -6,7 +6,8 @@
 
 :root{
     --red: #f02121;
-    --winning-blocks: #2d414b;
+    --winning-blocks: #ffffff;
+    --original-color: #051871;
 }
 
 body{

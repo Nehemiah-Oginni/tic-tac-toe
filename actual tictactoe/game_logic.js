@@ -3,6 +3,7 @@ let restartBtn = document.getElementById('restartBtn')
 let boxes = Array.from(document.getElementsByClassName('box'))
 
 let winnerIndicator = getComputedStyle(document.body).getPropertyValue('--winning-blocks')
+let boardColorReset = getComputedStyle(document.body).getPropertyValue('--original-color')
 
 const O_MARK = "O"
 const X_MARK = "X"
@@ -13,9 +14,8 @@ const startGame = () => {
     boxes.forEach(box => box.addEventListener('click', boxClicked))
 }
 
-function boxClicked(e)
+function boxClicked(e)// after each click the AI will place its mark
 {
-    console.log('Box clicked!', e.target.id)
     const id = e.target.id
 
     if(!spaces[id])
@@ -25,10 +25,15 @@ function boxClicked(e)
 
         if(playerHasWon() !==false)
         {
-            playerText = `${currentPlayer} has won!`
+            playerText.innerText = `${currentPlayer} has won!`
             let winning_blocks = playerHasWon()
 
-            winning_blocks.map(block => boxed[box].style.backgroundcolor=winnerIndicator)
+            
+
+            winning_blocks.forEach(block => {
+                boxes[block].style.backgroundColor = winnerIndicator;
+            });
+
             return
         }
         currentPlayer = currentPlayer == X_MARK ? O_MARK : X_MARK
@@ -38,22 +43,22 @@ function boxClicked(e)
 const winningCombos =
 [
     // Rows
-    [0, 1, 2]
-    [3, 4, 5]
-    [6, 7, 8]
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
 
     // Columns
-    [0, 3, 6]
-    [1, 4, 7]
-    [2, 5, 8]
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
 
     // Diagonals
-    [0, 4, 8]
+    [0, 4, 8],
     [2, 4, 6]
 ]
 function playerHasWon()
 {
-    for (const condition of winningCombos) 
+    for (const condition of winningCombos) //grabs all 3 numbers and makes sure they are the same mark
     {
         let [a, b, c] = condition
 
@@ -66,13 +71,19 @@ function playerHasWon()
 }
 restartBtn.addEventListener('click', restart)
 
-function restart()
+function restart()//resets the gameboard
 {
     spaces.fill(null)
 
-    boxes.forEach(box => {box.innerText = ''})
+    boxes.forEach
+    (
+        box => {box.innerText = ''
+        box.style.backgroundColor = '';}
+    )
 
-    playerText = 'NENEs TIC TAC TOE'
+    
+
+    playerText.innerText = 'NENEs AI TIC TAC TOE'
 
     currentPlayer = X_MARK
 }
