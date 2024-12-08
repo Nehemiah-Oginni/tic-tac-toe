@@ -1,11 +1,12 @@
 let playerText = document.getElementById('playerText')
 let restartBtn = document.getElementById('restartBtn')
 let boxes = Array.from(document.getElementsByClassName('box'))
+let SIZE = 3
 
 let winnerIndicator = getComputedStyle(document.body).getPropertyValue('--winning-blocks')
 let boardColorReset = getComputedStyle(document.body).getPropertyValue('--original-color')
 
-const O_MARK = "O"
+const AI = "O"
 const X_MARK = "X"
 let currentPlayer = X_MARK
 let spaces = Array(9).fill(null)
@@ -36,7 +37,62 @@ function boxClicked(e)// after each click the AI will place its mark
 
             return
         }
-        currentPlayer = currentPlayer == X_MARK ? O_MARK : X_MARK
+        //currentPlayer = currentPlayer == X_MARK ? O_MARK : X_MARK
+        aiMove()
+    }
+}
+
+/* function aiMove() 
+{
+    const id = e.target.id
+
+    for (let i = 0; i < SIZE; i++) 
+    {
+        for (let j = 0; j < SIZE; j++) 
+        {
+            if (boxes[i][j] === null) 
+            {
+                e.target.innerText = AI;
+                if (playerHasWon(AI)) return;
+                e.target.innerText = '';
+            }
+        }
+    }
+    for (let i = 0; i < SIZE; i++) 
+    {
+        for (let j = 0; j < SIZE; j++) 
+        {
+            if (boxes[i][j] === null) 
+            {
+                e.target.innerText = AI;
+                return;
+            }
+        }
+    }
+} */
+    function aiMove()
+{
+    const emptySpaces = spaces.reduce((acc, space, index) => {
+        if (space === null) acc.push(index);
+        return acc;
+    }, []);
+    
+    if (emptySpaces.length > 0) {
+        // Choose a random empty space
+        const randomIndex = emptySpaces[Math.floor(Math.random() * emptySpaces.length)];
+        
+        spaces[randomIndex] = AI;
+        boxes[randomIndex].innerText = AI;
+
+        if(playerHasWon() !==false)
+        {
+            playerText.innerText = `${AI} has won!`
+            let winning_blocks = playerHasWon()
+
+            winning_blocks.forEach(block => {
+                boxes[block].style.backgroundColor = winnerIndicator;
+            });
+        }
     }
 }
 
