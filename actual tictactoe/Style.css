@@ -60,9 +60,6 @@ h1{
 .box:nth-child(n+7) {
     border-bottom: none;
 }
-/*.box:nth-last-child(6) ~ .box{
-    border-bottom: none;
-}*/
 
 button{
     padding: 10px 20px;
