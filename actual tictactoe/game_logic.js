@@ -1,3 +1,8 @@
+//apt install save-- openai
+//npm install --save openai
+
+import OpenAI from "openai"
+
 let playerText = document.getElementById('playerText')
 let restartBtn = document.getElementById('restartBtn')
 let boxes = Array.from(document.getElementsByClassName('box'))
@@ -77,7 +82,8 @@ function boxClicked(e)// after each click the AI will place its mark
         return acc;
     }, []);
     
-    if (emptySpaces.length > 0) {
+    if (emptySpaces.length > 0) 
+    {
         // Choose a random empty space
         const randomIndex = emptySpaces[Math.floor(Math.random() * emptySpaces.length)];
         

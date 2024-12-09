@@ -8,24 +8,37 @@ function bestMove()
 
     let available = [];
 
+    let bestScore = -Infinity;
+
     for (let i = 0; i < SIZE; i++) 
     {
         for (let j = 0; j < SIZE; j++) 
         {
-            if (boxes[i][j] == '') //checks that spot is available
+            if (board[i][j] == '') //checks that spot is available
             {
-                available.push({i,j});
+                board[i][j] = AI;
+                let score = minimax(board) 
+                board[i][j] = '';
+                if(score > bestScore) 
+                {
+                    bestScore = score;
+                    move = {i, j};
+                }
             }
         }
     }
-
-    let move = random(available);
     board[move.i][move.j] = AI;
     currentPlayer = human;
-
-
-
 }
+
+function minimax(board)
+{
+    return 1;
+}
+
+
+
+
     /* for (let i = 0; i < SIZE; i++) 
     {
         for (let j = 0; j < SIZE; j++) 
